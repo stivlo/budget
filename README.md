@@ -1,4 +1,4 @@
-# budget
+# Daily Budget App
 
 Daily Budget
 
