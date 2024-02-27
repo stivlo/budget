@@ -34,16 +34,16 @@ class MyApp extends StatelessWidget {
           resultSnapshot.connectionState == ConnectionState.waiting
               ? const Center(child: CircularProgressIndicator())
               : resultSnapshot.data == true
-                  ? const HomeScreen()
+                  ? HomeScreen(currencyProvider)
                   : CurrencyScreen(currencyProvider));
 
   ThemeData themeData(BuildContext context) => ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade900),
         useMaterial3: true,
         elevatedButtonTheme: elevatedButtonThemeData(context),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.purple,
-          titleTextStyle: TextStyle(fontSize: 22),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.orange.shade800,
+          titleTextStyle: const TextStyle(fontSize: 22),
         ),
       );
 
