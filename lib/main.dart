@@ -14,36 +14,65 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (ctx) => CurrencyProvider()),
-      ],
-      child: Consumer<CurrencyProvider>(
-        builder: (ctx, currencyProvider, _) => Consumer<CurrencyProvider>(
-            builder: (ctx, currencyProvider, _) => MaterialApp(
-                  title: 'Budget Fairy',
-                  theme: ThemeData(
-                    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                    useMaterial3: true,
-                    appBarTheme: const AppBarTheme(
-                      backgroundColor: Colors.purple,
-                      titleTextStyle: TextStyle(
-                        fontSize: 22,
-                      ),
-                    ),
-                  ),
-                  home: FutureBuilder(
-                      future: currencyProvider.hasCurrency(),
-                      builder: (ctx, resultSnapshot) =>
-                          resultSnapshot.connectionState == ConnectionState.waiting
-                              ? const Center(child: CircularProgressIndicator())
-                              : resultSnapshot.data == true
-                                  ? const HomeScreen()
-                                  : CurrencyScreen(currencyProvider)),
-                  routes: const {},
-                )),
-      ),
-    );
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (ctx) => CurrencyProvider()),
+        ],
+        child: Consumer<CurrencyProvider>(
+          builder: (ctx, currencyProvider, _) => MaterialApp(
+            title: 'Budget Fairy',
+            theme: themeData(ctx),
+            home: buildHomeScreen(currencyProvider),
+            routes: const {},
+          ),
+        ),
+      );
+
+  FutureBuilder<bool> buildHomeScreen(CurrencyProvider currencyProvider) => FutureBuilder(
+      future: currencyProvider.hasCurrency(),
+      builder: (ctx, resultSnapshot) =>
+          resultSnapshot.connectionState == ConnectionState.waiting
+              ? const Center(child: CircularProgressIndicator())
+              : resultSnapshot.data == true
+                  ? const HomeScreen()
+                  : CurrencyScreen(currencyProvider));
+
+  ThemeData themeData(BuildContext context) => ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+        elevatedButtonTheme: elevatedButtonThemeData(context),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.purple,
+          titleTextStyle: TextStyle(fontSize: 22),
+        ),
+      );
+
+  ElevatedButtonThemeData elevatedButtonThemeData(BuildContext context) =>
+      ElevatedButtonThemeData(
+        style: ButtonStyle(
+          side: MaterialStateProperty.resolveWith<BorderSide>(
+              (states) => const BorderSide(color: Colors.black)),
+          backgroundColor: background(context),
+          shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+            return RoundedRectangleBorder(borderRadius: BorderRadius.circular(20));
+          }),
+          elevation: MaterialStateProperty.resolveWith<double>(
+              (states) => states.contains(MaterialState.pressed) ? 0.0 : 5.0),
+          textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
+            return const TextStyle(color: Colors.black);
+          }),
+        ),
+      );
+
+  MaterialStateProperty<Color> simpleBackground() =>
+      MaterialStateProperty.resolveWith<Color>((states) => Colors.white);
+
+  MaterialStateProperty<Color?>? background(BuildContext context) {
+    return MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.pressed)) {
+        return Theme.of(context).colorScheme.primary.withOpacity(0.5);
+      }
+      return null; // Use the component's default.
+    });
   }
 }
