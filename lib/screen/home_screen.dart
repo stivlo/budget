@@ -1,4 +1,5 @@
 import 'package:budget/helper/date_helper.dart';
+import 'package:budget/widget/circle_icon.dart';
 import 'package:flutter/material.dart';
 
 import '../provider/currency_provider.dart';
@@ -12,28 +13,29 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: PopupMenuButton(
+            onSelected: (selectedValue) {},
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            itemBuilder: (ctx) => [
+              const PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.output_rounded,
+                      color: Colors.deepOrange,
+                    ),
+                    Text(' New Expense Category')
+                  ],
+                ),
+              ),
+            ],
+          ),
           title: Text(DateHelper.formattedDate()),
           centerTitle: true,
-          actions: [
-            PopupMenuButton(
-              onSelected: (selectedValue) {},
-              icon: const Icon(Icons.menu),
-              itemBuilder: (ctx) => [
-                const PopupMenuItem(
-                  value: 1,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.output_rounded,
-                        color: Colors.deepOrange,
-                      ),
-                      Text(' Manage Expense Categories')
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -42,10 +44,7 @@ class HomeScreen extends StatelessWidget {
                 elevation: 5,
                 color: Colors.green[50],
                 child: ListTile(
-                  leading: const Icon(
-                    Icons.input_rounded,
-                    color: Colors.green,
-                  ),
+                  leading: const CircleIcon(Icons.input_rounded, Colors.green),
                   title: Text('Income', style: Theme.of(context).textTheme.titleLarge),
                   subtitle:
                       Text('Tap to set', style: Theme.of(context).textTheme.bodyMedium),
@@ -58,10 +57,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListTile(
-                        leading: const Icon(
-                          Icons.output_rounded,
-                          color: Colors.deepOrange,
-                        ),
+                        leading: const CircleIcon(Icons.output_rounded, Colors.orange),
                         title: Text('Expenses',
                             style: Theme.of(context).textTheme.titleLarge),
                         trailing: Text('30 days ▼',
@@ -72,7 +68,11 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text('Available today: '),
-                            Text(' £112.12', style: TextStyle(color: Colors.green)),
+                            Text(' £112.12',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ],
                         ),
                       ),
@@ -82,11 +82,12 @@ class HomeScreen extends StatelessWidget {
                         child: Text('◀ Friday, 16 February  →  Thursday, 22 February ▶'),
                       ),
                       const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18),
-                        child: Text(
-                            'Tap on the menu on the top right to manage expense categories'),
-                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text('No expense categories yet'),
+                          )),
                       const SizedBox(height: 20),
                     ],
                   ))
