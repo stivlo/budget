@@ -13,20 +13,6 @@ enum Currency {
   hkd('Hong Kong Dollar', 'HKD', 'HK\$'),
   nzd('New Zealand Dollar', 'NZD', 'NZ\$'),
 
-  afn('Afghani', 'AFN', '؋'),
-  all('Lek', 'ALL', 'L'),
-  dzd('Algerian Dinar', 'DZD', 'دج'),
-  aoa('Kwanza', 'AOA', 'Kz'),
-  xcd('East Caribbean Dollar', 'XCD', 'EC\$'),
-  ars('Argentine Peso', 'ARS', '\$'),
-  amd('Armenian Dram', 'AMD', 'Դ'),
-  awg('Aruba Florin', 'AWG', 'ƒ'),
-
-  azn('Azerbaijan Manat', 'AZN', '₼'),
-  bsd('Bahamian Dollar', 'bsd', 'B\$'),
-  bhd('Bahraini Dinar', 'BHD', '.د.ب'),
-  bdt('Taka', 'BDT', 'Tk'),
-
   thb('Thai Baht', 'THB', '฿');
 
   const Currency(this.name, this.abbreviation, this.symbol);

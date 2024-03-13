@@ -29,7 +29,6 @@ class CurrencyProvider with ChangeNotifier {
   Future<bool> hasCurrency() async => await fetchCurrency() != null;
 
   Future<void> saveCurrency(Currency currency) async {
-    print('saveCurrency $currency');
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(currencyKey, currency.abbreviation);
     if (selectedCurrency != currency) {

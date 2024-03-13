@@ -1,0 +1,4 @@
+enum MyActions {
+  newExpenseCategory,
+  setDefaultCurrency,
+}
