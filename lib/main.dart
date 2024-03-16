@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:budget/provider/currency_provider.dart';
+import 'package:budget/provider/date_range_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (ctx) => CurrencyProvider()),
+          ChangeNotifierProvider(create: (ctx) => DateRangeProvider()),
         ],
         child: Consumer<CurrencyProvider>(
           builder: (ctx, currencyProvider, _) => MaterialApp(
@@ -95,9 +97,20 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade900),
         useMaterial3: true,
         elevatedButtonTheme: elevatedButtonThemeData(context),
+        textButtonTheme: textButtonThemeData(context),
+        textTheme: ThemeData.light().textTheme.copyWith(
+              bodyMedium: const TextStyle(fontSize: 13),
+            ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.orange.shade800,
           titleTextStyle: const TextStyle(fontSize: 22),
+        ),
+      );
+
+  TextButtonThemeData textButtonThemeData(BuildContext context) =>
+      const TextButtonThemeData(
+        style: ButtonStyle(
+          padding: MaterialStatePropertyAll(EdgeInsets.zero),
         ),
       );
 
