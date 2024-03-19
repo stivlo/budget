@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:budget/provider/currency_provider.dart';
-import 'package:budget/provider/date_range_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +7,9 @@ import 'package:workmanager/workmanager.dart';
 
 import 'helper/date_time_helper.dart';
 import 'model/currency.dart';
+import 'provider/currency_provider.dart';
+import 'provider/date_range_provider.dart';
+import 'screen/create_account_screen.dart';
 import 'screen/currency_screen.dart';
 import 'screen/home_screen.dart';
 
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<CurrencyProvider>(
           builder: (ctx, currencyProvider, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Budget Pilot',
             theme: themeData(ctx),
             home: buildHomeScreen(currencyProvider),
@@ -73,7 +75,8 @@ class MyApp extends StatelessWidget {
                                 currencyProvider,
                                 currencySnapshot.data,
                               ),
-                  )
+                  ),
+              CreateAccountScreen.routeName: (_) => const CreateAccountScreen(),
             },
           ),
         ),

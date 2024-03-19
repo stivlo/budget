@@ -1,11 +1,12 @@
-import 'package:budget/helper/date_time_helper.dart';
-import 'package:budget/widget/cron_test.dart';
-import 'package:budget/widget/date_range_widget.dart';
-import 'package:budget/widget/expenses_home.dart';
-import 'package:budget/widget/income_home.dart';
 import 'package:flutter/material.dart';
 
+import '../helper/date_time_helper.dart';
 import '../provider/currency_provider.dart';
+import '../widget/accounts_home.dart';
+import '../widget/cron_test.dart';
+import '../widget/date_range_widget.dart';
+import '../widget/expenses_home.dart';
+import '../widget/income_home.dart';
 import '../widget/popup_menu.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,6 +28,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               DateRangeWidget(),
+              AccountsHome(),
               IncomeHome(),
               ExpensesHome(),
               CronTest(),
