@@ -1,3 +1,4 @@
+import 'package:budget/helper/date_time_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../model/date_range.dart';
@@ -6,7 +7,7 @@ class DateRangeProvider with ChangeNotifier {
   DateRangeProvider()
       : dateRange = DateRange(
           durationDays: 30,
-          endDate: DateTime.now(),
+          endDate: DateTimeHelper.todaysDate(),
         );
 
   DateRange dateRange;
@@ -33,6 +34,12 @@ class DateRangeProvider with ChangeNotifier {
 
   DateRange withDurationDays(int durationDays) {
     dateRange = dateRange.withDurationDays(durationDays);
+    notifyListeners();
+    return dateRange;
+  }
+
+  DateRange endingToday() {
+    dateRange = dateRange.endingToday(durationDays);
     notifyListeners();
     return dateRange;
   }

@@ -25,7 +25,22 @@ class _DateRangeWidgetState extends State<DateRangeWidget> {
             builder: (ctx, dateRangeProvider, _) => Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    buildDropdownMenu(dateRangeProvider),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        buildDropdownMenu(dateRangeProvider),
+                        TextButton(
+                          onPressed: () => setState(() {
+                            dateRange = dateRangeProvider.endingToday();
+                          }),
+                          child: Text(
+                            '📅Today',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                        const SizedBox(width: 15)
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -38,7 +53,16 @@ class _DateRangeWidgetState extends State<DateRangeWidget> {
                             child: const Text('◀')),
                         Text(DateTimeHelper.formattedShortDate(dateRange.beginDate)),
                         const Text('➜'),
-                        Text(DateTimeHelper.formattedShortDate(dateRange.endDate)),
+                        Text(
+                          DateTimeHelper.formattedShortDate(dateRange.endDate),
+                          style: TextStyle(
+                              fontWeight: DateUtils.isSameDay(
+                            dateRange.endDate,
+                            DateTimeHelper.todaysDate(),
+                          )
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                         TextButton(
                             onPressed: () {
                               setState(() {
@@ -59,6 +83,7 @@ class _DateRangeWidgetState extends State<DateRangeWidget> {
       enableSearch: false,
       enableFilter: false,
       textStyle: const TextStyle(fontSize: 12),
+      width: 110,
       inputDecorationTheme: InputDecorationTheme(
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 4),

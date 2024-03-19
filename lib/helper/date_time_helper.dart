@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeHelper {
@@ -12,4 +13,6 @@ class DateTimeHelper {
       date.toIso8601String().substring(0, 10);
 
   static String formattedTime() => DateFormat.Hms().format(DateTime.now());
+
+  static DateTime todaysDate() => DateUtils.dateOnly(DateTime.now());
 }

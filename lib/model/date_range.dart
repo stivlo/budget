@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 
 class DateRange {
   DateRange({this.durationDays = 30, DateTime? endDate})
-      : endDate = endDate ?? DateUtils.dateOnly(DateTime.now());
+      : endDate = pickProvidedDateOrNow(endDate) {
+    print(this);
+  }
 
   int durationDays;
   DateTime endDate;
+
+  static pickProvidedDateOrNow(DateTime? dateTime) {
+    if (dateTime == null) {
+      return DateUtils.dateOnly(DateTime.now());
+    }
+    return DateUtils.dateOnly(dateTime);
+  }
 
   DateTime get beginDate => endDate.subtract(Duration(days: durationDays));
 
@@ -18,6 +27,9 @@ class DateRange {
 
   DateRange withDurationDays(int durationDays) =>
       DateRange(durationDays: durationDays, endDate: endDate);
+
+  DateRange endingToday(int durationDays) =>
+      DateRange(durationDays: durationDays, endDate: DateTime.now());
 
   @override
   bool operator ==(Object other) {

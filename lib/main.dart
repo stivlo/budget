@@ -107,10 +107,10 @@ class MyApp extends StatelessWidget {
         ),
       );
 
-  TextButtonThemeData textButtonThemeData(BuildContext context) =>
-      const TextButtonThemeData(
+  TextButtonThemeData textButtonThemeData(BuildContext context) => TextButtonThemeData(
         style: ButtonStyle(
-          padding: MaterialStatePropertyAll(EdgeInsets.zero),
+          padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+          fixedSize: MaterialStateProperty.all(const Size.fromHeight(30)),
         ),
       );
 
