@@ -18,6 +18,7 @@ class _AccountsHomeState extends State<AccountsHome> {
     return Card(
         elevation: 5,
         color: Colors.blue[50],
+        margin: const EdgeInsets.all(3),
         child: Column(
           children: [
             Stack(

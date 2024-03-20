@@ -20,7 +20,8 @@ class _DateRangeWidgetState extends State<DateRangeWidget> {
     return Card(
         elevation: 5,
         surfaceTintColor: const Color(0xFFFFE5E5),
-        color: Colors.white,
+        color: Colors.white70,
+        margin: const EdgeInsets.all(3),
         child: Consumer<DateRangeProvider>(
             builder: (ctx, dateRangeProvider, _) => Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

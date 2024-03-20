@@ -16,8 +16,8 @@ class PopupMenu extends StatelessWidget {
     MenuOption(
       'Change Default Currency',
       MenuAction.setDefaultCurrency,
-      Icons.output_rounded,
-      Colors.deepOrange,
+      Icons.currency_exchange,
+      Colors.grey,
     ),
   ];
 

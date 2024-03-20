@@ -10,6 +10,7 @@ class IncomeHome extends StatelessWidget {
     return Card(
         elevation: 5,
         color: Colors.green[50],
+        margin: const EdgeInsets.all(3),
         child: Column(
           children: [
             ListTile(

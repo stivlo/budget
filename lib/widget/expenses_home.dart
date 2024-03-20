@@ -9,6 +9,7 @@ class ExpensesHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
+      margin: const EdgeInsets.all(3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
