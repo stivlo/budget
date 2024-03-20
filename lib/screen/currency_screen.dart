@@ -1,9 +1,9 @@
-import 'package:budget/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../model/currency.dart';
 import '../provider/currency_provider.dart';
 import '../widget/currency_selector.dart';
+import 'home_screen.dart';
 
 class CurrencyScreen extends StatefulWidget {
   const CurrencyScreen(this.currencyProvider, this.initialCurrency, {super.key});
