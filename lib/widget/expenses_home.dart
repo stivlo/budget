@@ -15,7 +15,6 @@ class ExpensesHome extends StatelessWidget {
           ListTile(
             leading: const CircleIcon(Icons.output_rounded, Colors.orange),
             title: Text('Expenses', style: Theme.of(context).textTheme.titleLarge),
-            trailing: Text('30 days ▼', style: Theme.of(context).textTheme.titleMedium),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 18),
@@ -31,11 +30,6 @@ class ExpensesHome extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18),
-            child: Text('◀ Friday, 16 February  →  Thursday, 22 February ▶'),
-          ),
-          const SizedBox(height: 20),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: TextButton(

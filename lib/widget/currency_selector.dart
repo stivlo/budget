@@ -21,15 +21,17 @@ class CurrencySelector extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(vertical: 5.0),
       ),
       onSelected: (Currency? currency) => _onSelectedCurrency(currency),
-      dropdownMenuEntries: Currency.values
-          .map<DropdownMenuEntry<Currency>>(
-            (Currency currency) => DropdownMenuEntry<Currency>(
-                value: currency,
-                leadingIcon: Text(currency.abbreviation),
-                label: currency.name,
-                trailingIcon: Text(currency.symbol)),
-          )
-          .toList(),
+      dropdownMenuEntries: buildDropDownMenuEntries(),
     );
   }
+
+  List<DropdownMenuEntry<Currency>> buildDropDownMenuEntries() => Currency.values
+      .map<DropdownMenuEntry<Currency>>(
+        (Currency currency) => DropdownMenuEntry<Currency>(
+            value: currency,
+            leadingIcon: Text('${currency.flag} ${currency.abbreviation}'),
+            label: currency.name,
+            trailingIcon: Text(currency.symbol)),
+      )
+      .toList();
 }

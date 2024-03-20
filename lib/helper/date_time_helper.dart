@@ -14,5 +14,5 @@ class DateTimeHelper {
 
   static String formattedTime() => DateFormat.Hms().format(DateTime.now());
 
-  static DateTime todaysDate() => DateUtils.dateOnly(DateTime.now());
+  static DateTime todayDate() => DateUtils.dateOnly(DateTime.now());
 }

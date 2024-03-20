@@ -1,4 +1,4 @@
-enum MyActions {
+enum MenuAction {
   newExpenseCategory,
   setDefaultCurrency,
 }
