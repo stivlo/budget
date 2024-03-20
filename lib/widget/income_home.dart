@@ -8,7 +8,7 @@ class IncomeHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 5,
+        elevation: 2,
         color: Colors.green[50],
         margin: const EdgeInsets.all(3),
         child: Column(

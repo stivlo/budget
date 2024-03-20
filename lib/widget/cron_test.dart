@@ -14,7 +14,8 @@ class _CronTestState extends State<CronTest> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 2,
+      margin: const EdgeInsets.all(3),
       child: FutureBuilder(
         future: findExecutions(),
         builder: (ctx, snapshot) {

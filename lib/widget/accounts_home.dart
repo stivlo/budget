@@ -16,7 +16,7 @@ class _AccountsHomeState extends State<AccountsHome> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 5,
+        elevation: 2,
         color: Colors.blue[50],
         margin: const EdgeInsets.all(3),
         child: Column(

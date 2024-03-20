@@ -18,7 +18,7 @@ class _DateRangeWidgetState extends State<DateRangeWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 5,
+        elevation: 2,
         surfaceTintColor: const Color(0xFFFFE5E5),
         color: Colors.white70,
         margin: const EdgeInsets.all(3),
