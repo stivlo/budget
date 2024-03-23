@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../components/accounts_home.dart';
+import '../components/date_range_widget.dart';
+import '../components/expenses_home.dart';
+import '../components/income_home.dart';
 import '../helper/date_time_helper.dart';
 import '../provider/currency_provider.dart';
-import '../widget/accounts_home.dart';
 import '../widget/cron_test.dart';
-import '../widget/date_range_widget.dart';
-import '../widget/expenses_home.dart';
-import '../widget/income_home.dart';
 import '../widget/popup_menu.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         body: const SingleChildScrollView(
           child: Column(
             children: [
-              DateRangeWidget(),
+              DateRangeComponent(),
               AccountsHome(),
               IncomeHome(),
               ExpensesHome(),

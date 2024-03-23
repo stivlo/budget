@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'circle_icon.dart';
+import '../widget/circle_icon.dart';
 
 class ExpensesHome extends StatelessWidget {
   const ExpensesHome({super.key});
