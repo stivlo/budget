@@ -5,14 +5,14 @@ import '../helper/date_time_helper.dart';
 import '../model/date_range.dart';
 import '../provider/date_range_provider.dart';
 
-class DateRangeWidget extends StatefulWidget {
-  const DateRangeWidget({super.key});
+class DateRangeComponent extends StatefulWidget {
+  const DateRangeComponent({super.key});
 
   @override
-  State<DateRangeWidget> createState() => _DateRangeWidgetState();
+  State<DateRangeComponent> createState() => _DateRangeComponentState();
 }
 
-class _DateRangeWidgetState extends State<DateRangeWidget> {
+class _DateRangeComponentState extends State<DateRangeComponent> {
   DateRange dateRange = DateRange();
 
   @override

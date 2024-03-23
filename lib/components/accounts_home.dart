@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screen/create_account_screen.dart';
-import 'circle_icon.dart';
+import '../widget/circle_icon.dart';
 
 class AccountsHome extends StatefulWidget {
   const AccountsHome({super.key});
