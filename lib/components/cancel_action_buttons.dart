@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../widget/action_button.dart';
 import '../widget/cancel_button.dart';
