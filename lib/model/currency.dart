@@ -56,7 +56,8 @@ enum Currency {
   thb('Thai Baht', 'THB', '฿', '🇹🇭'),
   try_('Turkish Lira', 'TRY', '₺', '🇹🇷'),
   uah('Ukrainian Grivna', 'UAH', '₴', '🇺🇦'),
-  vnd('Vietnamese Dong', 'VND', '₫', '🇻🇳');
+  vnd('Vietnamese Dong', 'VND', '₫', '🇻🇳'),
+  nul('No currency selected', 'NUL', '', '');
 
   const Currency(this.name, this.abbreviation, this.symbol, this.flag);
   final String name;
