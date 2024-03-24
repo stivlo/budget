@@ -1,10 +1,9 @@
-import 'package:budget/widget/cancel_button.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
+import '../components/cancel_action_buttons.dart';
 import '../model/currency.dart';
 import '../model/new_account.dart';
-import '../widget/action_button.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -26,33 +25,54 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   void _createAccount() {
     print('saving form... ${_form.currentState}');
-    _form.currentState?.save();
-    print('account: $_account');
+    if (_form.currentState != null && _form.currentState!.validate()) {
+      _form.currentState!.save();
+      print('account: $_account');
+    }
+  }
+
+  String? _validateName(String? name) {
+    if (name == null || name.isEmpty) {
+      return 'Provide an account name';
+    }
+    return null;
+  }
+
+  String? _validateCurrency(Currency? currency) {
+    if (currency == null || currency == Currency.nul) {
+      return 'Select a currency for the account';
+    }
+    return null;
+  }
+
+  String? _validateInitialBalance(String? balance) {
+    if (balance == null || balance.isEmpty) {
+      return 'Provide an initial balance for the account';
+    }
+    try {
+      Decimal.parse(balance);
+    } catch (err) {
+      return 'Invalid balance, provide a positive or negative number';
+    }
+    return null;
   }
 
   void _saveName(String? name) {
-    print('saving name: $name');
     if (name != null) {
       _account = _account.copyWith(name: name);
     }
   }
 
   void _saveCurrency(Currency? currency) {
-    print('saving currency: $currency');
     if (currency != null) {
       _account = _account.copyWith(currency: currency);
     }
   }
 
   void _saveInitialBalance(String? initialBalance) {
-    print('saving initialBalance: $initialBalance');
     if (initialBalance != null) {
-      try {
-        _account = _account.copyWith(initialBalance: Decimal.parse(initialBalance));
-      } catch (error) {
-        // do nothing in case of errors for now
-        print(error);
-      }
+      // errors already checked in validate phase
+      _account = _account.copyWith(initialBalance: Decimal.parse(initialBalance));
     }
   }
 
@@ -70,14 +90,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Create accounts for any saving or current account, '
-                  'credit card, cash, and mortgage accounts.',
-                  textAlign: TextAlign.justify,
-                ),
+                const Text('Create accounts for any saving or current account, '
+                    'credit card, cash, and mortgage accounts (negative balance).'),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Account Name'),
                   textInputAction: TextInputAction.next,
+                  validator: _validateName,
                   onSaved: _saveName,
                 ),
                 const SizedBox(height: 16),
@@ -89,6 +107,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   icon: const Icon(Icons.arrow_downward),
                   items: buildMenuItems(),
                   onChanged: (_) {},
+                  validator: _validateCurrency,
                   onSaved: _saveCurrency,
                 ),
                 const SizedBox(height: 30),
@@ -96,19 +115,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   decoration: const InputDecoration(labelText: 'Initial Balance'),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
+                  validator: _validateInitialBalance,
                   onSaved: _saveInitialBalance,
                 ),
-                const SizedBox(height: 50),
-                Row(
-                  children: [
-                    CancelButton(Navigator.of(context)),
-                    const SizedBox(width: 40),
-                    ActionButton(
-                      label: 'Create',
-                      onPressed: _createAccount,
-                    ),
-                  ],
-                )
+                const SizedBox(height: 30),
+                CancelActionButtons(action: _createAccount, actionLabel: 'Create'),
               ],
             ),
           ),
