@@ -26,6 +26,7 @@ class CurrencySelector extends StatelessWidget {
   }
 
   List<DropdownMenuEntry<Currency>> buildDropDownMenuEntries() => Currency.values
+      .where((currency) => currency != Currency.nul)
       .map<DropdownMenuEntry<Currency>>(
         (Currency currency) => DropdownMenuEntry<Currency>(
             value: currency,
