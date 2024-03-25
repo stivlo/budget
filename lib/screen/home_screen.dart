@@ -1,20 +1,17 @@
+import 'package:budget/components/proverb_component.dart';
 import 'package:flutter/material.dart';
 
 import '../components/accounts_home.dart';
-import '../components/date_range_widget.dart';
+import '../components/date_range_component.dart';
 import '../components/expenses_home.dart';
 import '../components/income_home.dart';
 import '../helper/date_time_helper.dart';
-import '../provider/currency_provider.dart';
-import '../widget/cron_test.dart';
 import '../widget/popup_menu.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen(this.currencyProvider, {super.key});
+  const HomeScreen({super.key});
 
   static const routeName = '/';
-
-  final CurrencyProvider currencyProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +24,11 @@ class HomeScreen extends StatelessWidget {
         body: const SingleChildScrollView(
           child: Column(
             children: [
+              ProverbComponent(),
               DateRangeComponent(),
               AccountsHome(),
               IncomeHome(),
               ExpensesHome(),
-              CronTest(),
             ],
           ),
         ));

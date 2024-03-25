@@ -3,36 +3,54 @@ import 'package:flutter/material.dart';
 import '../model/currency.dart';
 
 class CurrencySelector extends StatelessWidget {
-  const CurrencySelector(this.selectedCurrency, this._onSelectedCurrency, {super.key});
+  const CurrencySelector({
+    required this.context,
+    required this.selectedCurrency,
+    required this.saveCurrency,
+    super.key,
+  });
 
+  final BuildContext context;
   final Currency? selectedCurrency;
-  final Function _onSelectedCurrency;
+  final void Function(Currency?)? saveCurrency;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<Currency>(
-      initialSelection: selectedCurrency,
-      enableFilter: true,
-      requestFocusOnTap: true,
-      leadingIcon: const Icon(Icons.search),
-      label: const Text('Currency'),
-      inputDecorationTheme: const InputDecorationTheme(
-        filled: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+    return DropdownButtonFormField(
+      decoration: const InputDecoration(
+        labelText: 'Currency',
+        contentPadding: EdgeInsets.symmetric(vertical: 18),
       ),
-      onSelected: (Currency? currency) => _onSelectedCurrency(currency),
-      dropdownMenuEntries: buildDropDownMenuEntries(),
+      icon: const Icon(Icons.arrow_downward),
+      value: selectedCurrency,
+      items: buildMenuItems(),
+      onChanged: (_) {},
+      validator: _validateCurrency,
+      onSaved: saveCurrency,
     );
   }
 
-  List<DropdownMenuEntry<Currency>> buildDropDownMenuEntries() => Currency.values
+  String? _validateCurrency(Currency? currency) {
+    if (currency == null || currency == Currency.nul) {
+      return 'Select a currency';
+    }
+    return null;
+  }
+
+  List<DropdownMenuItem<Currency>> buildMenuItems() => Currency.values
       .where((currency) => currency != Currency.nul)
-      .map<DropdownMenuEntry<Currency>>(
-        (Currency currency) => DropdownMenuEntry<Currency>(
-            value: currency,
-            leadingIcon: Text('${currency.flag} ${currency.abbreviation}'),
-            label: currency.name,
-            trailingIcon: Text(currency.symbol)),
+      .map(
+        (e) => DropdownMenuItem<Currency>(
+          value: e,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width - 60,
+            height: 32,
+            child: ListTile(
+              leading: Text('${e.flag} ${e.abbreviation}'),
+              title: Text('${e.name} (${e.symbol})'),
+            ),
+          ),
+        ),
       )
       .toList();
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../helper/date_time_helper.dart';
 import '../model/date_range.dart';
@@ -17,34 +16,37 @@ class _DateRangeComponentState extends State<DateRangeComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return const Card(
         elevation: 2,
         surfaceTintColor: const Color(0xFFFFE5E5),
         color: Colors.white70,
         margin: const EdgeInsets.all(3),
-        child: Consumer<DateRangeProvider>(
-            builder: (ctx, dateRangeProvider, _) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        buildDropdownMenu(dateRangeProvider),
-                        buildTodayButton(dateRangeProvider),
-                        const SizedBox(width: 15)
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        buildPreviousButton(dateRangeProvider),
-                        ...buildDateRange(dateRangeProvider),
-                        buildNextButton(dateRangeProvider),
-                      ],
-                    ),
-                  ],
-                )));
+        child: Text('date range picker'));
   }
+
+  // Consumer<DateRangeProvider>(
+  // builder: (ctx, dateRangeProvider, _) => Column(
+  // crossAxisAlignment: CrossAxisAlignment.end,
+  // children: [
+  // Row(
+  // mainAxisAlignment: MainAxisAlignment.end,
+  // children: [
+  // buildDropdownMenu(dateRangeProvider),
+  // buildTodayButton(dateRangeProvider),
+  // const SizedBox(width: 15)
+  // ],
+  // ),
+  // Row(
+  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  // children: [
+  // buildPreviousButton(dateRangeProvider),
+  // ...buildDateRange(dateRangeProvider),
+  // buildNextButton(dateRangeProvider),
+  // ],
+  // ),
+  // ],
+  // ),
+  // ),
 
   List<Widget> buildDateRange(DateRangeProvider dateRangeProvider) => [
         Text(DateTimeHelper.formattedShortDate(dateRange.beginDate)),

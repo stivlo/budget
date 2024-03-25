@@ -1,20 +1,23 @@
+import 'package:budget/provider/default_currency_provider.dart';
+import 'package:budget/widget/currency_selector.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../components/cancel_action_buttons.dart';
 import '../model/currency.dart';
 import '../model/new_account.dart';
 
-class CreateAccountScreen extends StatefulWidget {
+class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
 
   static const routeName = '/create-account-screen';
 
   @override
-  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+  ConsumerState<CreateAccountScreen> createState() => _CreateAccountScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   final _form = GlobalKey<FormState>();
   var _account = NewAccount(
     name: '',
@@ -23,8 +26,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     initialBalanceDate: DateTime.now(),
   );
 
-  void _createAccount() {
-    print('saving form... ${_form.currentState}');
+  void _submitForm() {
     if (_form.currentState != null && _form.currentState!.validate()) {
       _form.currentState!.save();
       print('account: $_account');
@@ -34,13 +36,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? _validateName(String? name) {
     if (name == null || name.isEmpty) {
       return 'Provide an account name';
-    }
-    return null;
-  }
-
-  String? _validateCurrency(Currency? currency) {
-    if (currency == null || currency == Currency.nul) {
-      return 'Select a currency for the account';
     }
     return null;
   }
@@ -99,16 +94,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onSaved: _saveName,
                 ),
                 const SizedBox(height: 16),
-                DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Currency',
-                    contentPadding: EdgeInsets.symmetric(vertical: 18),
-                  ),
-                  icon: const Icon(Icons.arrow_downward),
-                  items: buildMenuItems(),
-                  onChanged: (_) {},
-                  validator: _validateCurrency,
-                  onSaved: _saveCurrency,
+                CurrencySelector(
+                  context: context,
+                  selectedCurrency: ref.read(defaultCurrencyProvider),
+                  saveCurrency: _saveCurrency,
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
@@ -119,31 +108,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onSaved: _saveInitialBalance,
                 ),
                 const SizedBox(height: 30),
-                CancelActionButtons(action: _createAccount, actionLabel: 'Create'),
+                CancelActionButtons(action: _submitForm, actionLabel: 'Create'),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  List<DropdownMenuItem<Currency>> buildMenuItems() {
-    return Currency.values
-        .where((currency) => currency != Currency.nul)
-        .map(
-          (e) => DropdownMenuItem<Currency>(
-            value: e,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width - 120,
-              height: 32,
-              child: ListTile(
-                leading: Text('${e.flag} ${e.abbreviation}'),
-                title: Text('${e.name} (${e.symbol})'),
-              ),
-            ),
-          ),
-        )
-        .toList();
   }
 }
