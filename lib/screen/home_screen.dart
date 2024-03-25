@@ -1,4 +1,3 @@
-import 'package:budget/components/proverb_component.dart';
 import 'package:flutter/material.dart';
 
 import '../components/accounts_home.dart';
@@ -24,7 +23,6 @@ class HomeScreen extends StatelessWidget {
         body: const SingleChildScrollView(
           child: Column(
             children: [
-              ProverbComponent(),
               DateRangeComponent(),
               AccountsHome(),
               IncomeHome(),

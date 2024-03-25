@@ -1,54 +1,46 @@
+import 'package:budget/provider/date_range_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../helper/date_time_helper.dart';
 import '../model/date_range.dart';
-import '../provider/date_range_provider.dart';
 
-class DateRangeComponent extends StatefulWidget {
+class DateRangeComponent extends ConsumerWidget {
   const DateRangeComponent({super.key});
 
   @override
-  State<DateRangeComponent> createState() => _DateRangeComponentState();
-}
-
-class _DateRangeComponentState extends State<DateRangeComponent> {
-  DateRange dateRange = DateRange();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Card(
-        elevation: 2,
-        surfaceTintColor: const Color(0xFFFFE5E5),
-        color: Colors.white70,
-        margin: const EdgeInsets.all(3),
-        child: Text('date range picker'));
+  Widget build(BuildContext context, WidgetRef ref) {
+    DateRange dateRange = ref.watch(dateRangeProvider);
+    return Card(
+      elevation: 2,
+      surfaceTintColor: const Color(0xFFFFE5E5),
+      color: Colors.white70,
+      margin: const EdgeInsets.all(3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              buildDurationDaysDropdown(dateRange, ref),
+              buildTodayButton(ref, context),
+              const SizedBox(width: 15)
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildPreviousButton(ref),
+              ...buildDateRange(dateRange),
+              buildNextButton(ref),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
-  // Consumer<DateRangeProvider>(
-  // builder: (ctx, dateRangeProvider, _) => Column(
-  // crossAxisAlignment: CrossAxisAlignment.end,
-  // children: [
-  // Row(
-  // mainAxisAlignment: MainAxisAlignment.end,
-  // children: [
-  // buildDropdownMenu(dateRangeProvider),
-  // buildTodayButton(dateRangeProvider),
-  // const SizedBox(width: 15)
-  // ],
-  // ),
-  // Row(
-  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  // children: [
-  // buildPreviousButton(dateRangeProvider),
-  // ...buildDateRange(dateRangeProvider),
-  // buildNextButton(dateRangeProvider),
-  // ],
-  // ),
-  // ],
-  // ),
-  // ),
-
-  List<Widget> buildDateRange(DateRangeProvider dateRangeProvider) => [
+  List<Widget> buildDateRange(DateRange dateRange) => [
         Text(DateTimeHelper.formattedShortDate(dateRange.beginDate)),
         const Text('➜'),
         Text(
@@ -63,37 +55,24 @@ class _DateRangeComponentState extends State<DateRangeComponent> {
         )
       ];
 
-  Widget buildPreviousButton(DateRangeProvider dateRangeProvider) => TextButton(
-        onPressed: () {
-          setState(() {
-            dateRange = dateRangeProvider.previousRange;
-          });
-        },
+  Widget buildPreviousButton(WidgetRef ref) => TextButton(
+        onPressed: () => ref.read(dateRangeProvider.notifier).moveToPrevious(),
         child: const Text('◀'),
       );
 
-  Widget buildNextButton(DateRangeProvider dateRangeProvider) => TextButton(
-        onPressed: () {
-          setState(() {
-            dateRange = dateRangeProvider.nextRange;
-          });
-        },
+  Widget buildNextButton(WidgetRef ref) => TextButton(
+        onPressed: () => ref.read(dateRangeProvider.notifier).moveToNext(),
         child: const Text('▶'),
       );
 
-  Widget buildTodayButton(DateRangeProvider dateRangeProvider) => TextButton(
-        onPressed: () => setState(() {
-          dateRange = dateRangeProvider.endingToday();
-        }),
-        child: Text(
-          '📅Today',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
+  Widget buildTodayButton(WidgetRef ref, BuildContext context) => TextButton(
+        onPressed: () => ref.read(dateRangeProvider.notifier).moveToEndingToday(),
+        child: Text('📅 Today', style: Theme.of(context).textTheme.bodySmall),
       );
 
-  DropdownMenu<int> buildDropdownMenu(DateRangeProvider dateRangeProvider) =>
+  DropdownMenu<int> buildDurationDaysDropdown(DateRange dateRange, WidgetRef ref) =>
       DropdownMenu<int>(
-        initialSelection: 30,
+        initialSelection: dateRange.durationDays,
         requestFocusOnTap: false,
         enableSearch: false,
         enableFilter: false,
@@ -107,9 +86,7 @@ class _DateRangeComponentState extends State<DateRangeComponent> {
         ),
         onSelected: (durationDays) {
           if (durationDays != null) {
-            setState(() {
-              dateRange = dateRangeProvider.withDurationDays(durationDays);
-            });
+            ref.read(dateRangeProvider.notifier).moveToDurationDays(durationDays);
           }
         },
         menuStyle: MenuStyle(

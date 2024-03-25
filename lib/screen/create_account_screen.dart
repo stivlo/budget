@@ -29,7 +29,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   void _submitForm() {
     if (_form.currentState != null && _form.currentState!.validate()) {
       _form.currentState!.save();
-      print('account: $_account');
     }
   }
 

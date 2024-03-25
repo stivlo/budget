@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class DateRange {
   DateRange({this.durationDays = 30, DateTime? endDate})
-      : endDate = pickProvidedDateOrNow(endDate) {
-    print(this);
-  }
+      : endDate = pickProvidedDateOrNow(endDate);
 
   int durationDays;
   DateTime endDate;

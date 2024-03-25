@@ -17,11 +17,12 @@ class CurrencyScreen extends ConsumerStatefulWidget {
 
 class _CurrencyScreenState extends ConsumerState<CurrencyScreen> {
   final _form = GlobalKey<FormState>();
-  Currency currency = Currency.nul;
+  late Currency currency;
   late NavigatorState navigatorState;
 
   @override
   Widget build(BuildContext context) {
+    currency = ref.watch(defaultCurrencyProvider);
     navigatorState = Navigator.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +80,6 @@ class _CurrencyScreenState extends ConsumerState<CurrencyScreen> {
   void submitForm() async {
     if (_form.currentState != null && _form.currentState!.validate()) {
       _form.currentState!.save();
-      print('currency: $currency');
     }
     await ref.read(defaultCurrencyProvider.notifier).saveCurrency(currency);
     await navigatorState.pushReplacementNamed(HomeScreen.routeName);

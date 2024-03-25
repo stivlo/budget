@@ -23,33 +23,25 @@ class BudgetApp extends ConsumerWidget {
         theme: ThemeBuilder.themeData(context),
         home: buildHomeScreen(ref),
         routes: {
-          // CurrencyScreen.routeName: (_) => FutureBuilder(
-          //       future: currencyProvider.fetchCurrency(),
-          //       builder: (_, currencySnapshot) =>
-          //           currencySnapshot.connectionState == ConnectionState.waiting
-          //               ? const Center(child: CircularProgressIndicator())
-          //               : CurrencyScreen(
-          //                   currencyProvider,
-          //                   currencySnapshot.data,
-          //                 ),
-          //     ),
+          CurrencyScreen.routeName: (_) => FutureBuilder(
+                future: ref.read(defaultCurrencyProvider.notifier).fetchCurrency(),
+                builder: (_, currencySnapshot) =>
+                    currencySnapshot.connectionState == ConnectionState.waiting
+                        ? const Center(child: CircularProgressIndicator())
+                        : const CurrencyScreen(),
+              ),
           CreateAccountScreen.routeName: (_) => const CreateAccountScreen(),
         },
       );
 
-  Widget buildHomeScreen(WidgetRef ref) {
-    Future<Currency> futureCurrency =
-        ref.watch(defaultCurrencyProvider.notifier).fetchCurrency();
-    return FutureBuilder(
-        future: futureCurrency,
-        builder: (ctx, currencySnapshot) {
-          if (currencySnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          print('Fetched currency: ${currencySnapshot.data}');
-          return currencySnapshot.data == Currency.nul
-              ? const CurrencyScreen()
-              : const HomeScreen();
-        });
-  }
+  Widget buildHomeScreen(WidgetRef ref) => FutureBuilder(
+      future: ref.watch(defaultCurrencyProvider.notifier).fetchCurrency(),
+      builder: (_, currencySnapshot) {
+        if (currencySnapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return currencySnapshot.data == Currency.nul
+            ? const CurrencyScreen()
+            : const HomeScreen();
+      });
 }
