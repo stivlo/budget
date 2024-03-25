@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/currency.dart';
 
-class CurrencyProvider with ChangeNotifier {
+class CurrencyProviderOld with ChangeNotifier {
   static const currencyKey = 'currency';
   Currency? selectedCurrency;
 
