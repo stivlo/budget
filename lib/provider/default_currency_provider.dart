@@ -15,7 +15,6 @@ class DefaultCurrencyNotifier extends StateNotifier<Currency> {
     final prefs = await SharedPreferences.getInstance();
     // await prefs.remove(currencyKey);
     String? currencyAbbreviation = prefs.getString(currencyKey);
-    print('currencyAbbreviation: $currencyAbbreviation');
     if (currencyAbbreviation != null) {
       Currency savedCurrency = Currency.values
           .firstWhere((currency) => currency.abbreviation == currencyAbbreviation);
@@ -29,7 +28,6 @@ class DefaultCurrencyNotifier extends StateNotifier<Currency> {
   Future<void> saveCurrency(Currency currency) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(currencyKey, currency.abbreviation);
-    print('Saving currency: $currency');
     if (state != currency) {
       state = currency;
     }

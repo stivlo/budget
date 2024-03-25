@@ -1,46 +1,38 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../helper/date_time_helper.dart';
 import '../model/date_range.dart';
 
-class DateRangeProvider with ChangeNotifier {
-  DateRangeProvider()
-      : dateRange = DateRange(
-          durationDays: 30,
-          endDate: DateTimeHelper.todayDate(),
+class DateRangeNotifier extends StateNotifier<DateRange> {
+  DateRangeNotifier()
+      : super(
+          DateRange(
+            durationDays: 30,
+            endDate: DateTimeHelper.todayDate(),
+          ),
         );
 
-  DateRange dateRange;
-
-  DateRange get range => dateRange;
-
-  DateTime get beginDate => dateRange.beginDate;
-
-  DateTime get endDate => dateRange.endDate;
-
-  int get durationDays => dateRange.durationDays;
-
-  DateRange get nextRange {
-    dateRange = dateRange.withNextRange;
-    notifyListeners();
-    return dateRange;
+  DateRange moveToNext() {
+    state = state.withNextRange;
+    return state;
   }
 
-  DateRange get previousRange {
-    dateRange = dateRange.withPreviousRange;
-    notifyListeners();
-    return dateRange;
+  DateRange moveToPrevious() {
+    state = state.withPreviousRange;
+    return state;
   }
 
-  DateRange withDurationDays(int durationDays) {
-    dateRange = dateRange.withDurationDays(durationDays);
-    notifyListeners();
-    return dateRange;
+  DateRange moveToDurationDays(int durationDays) {
+    state = state.withDurationDays(durationDays);
+    return state;
   }
 
-  DateRange endingToday() {
-    dateRange = dateRange.endingToday(durationDays);
-    notifyListeners();
-    return dateRange;
+  DateRange moveToEndingToday() {
+    state = state.endingToday(state.durationDays);
+    return state;
   }
 }
+
+final dateRangeProvider = StateNotifierProvider<DateRangeNotifier, DateRange>(
+  (ref) => DateRangeNotifier(),
+);
