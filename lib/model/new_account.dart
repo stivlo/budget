@@ -5,6 +5,12 @@ import 'currency.dart';
 
 // Contains the information to create a new account
 class NewAccount {
+  NewAccount.empty()
+      : name = '',
+        currency = Currency.nul,
+        initialBalance = Decimal.parse('0'),
+        initialBalanceDate = DateTime.now();
+
   NewAccount({
     required this.name,
     required this.currency,

@@ -15,7 +15,6 @@ void main() async {
 class BudgetApp extends ConsumerWidget {
   const BudgetApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -23,15 +22,17 @@ class BudgetApp extends ConsumerWidget {
         theme: ThemeBuilder.themeData(context),
         home: buildHomeScreen(ref),
         routes: {
-          CurrencyScreen.routeName: (_) => FutureBuilder(
-                future: ref.read(defaultCurrencyProvider.notifier).fetchCurrency(),
-                builder: (_, currencySnapshot) =>
-                    currencySnapshot.connectionState == ConnectionState.waiting
-                        ? const Center(child: CircularProgressIndicator())
-                        : const CurrencyScreen(),
-              ),
+          CurrencyScreen.routeName: (_) => buildCurrencyScreen(ref),
           CreateAccountScreen.routeName: (_) => const CreateAccountScreen(),
         },
+      );
+
+  Widget buildCurrencyScreen(WidgetRef ref) => FutureBuilder(
+        future: ref.read(defaultCurrencyProvider.notifier).fetchCurrency(),
+        builder: (_, currencySnapshot) =>
+            currencySnapshot.connectionState == ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : const CurrencyScreen(),
       );
 
   Widget buildHomeScreen(WidgetRef ref) => FutureBuilder(
