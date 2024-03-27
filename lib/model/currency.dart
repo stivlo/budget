@@ -64,4 +64,9 @@ enum Currency {
   final String abbreviation;
   final String symbol;
   final String flag;
+
+  static Currency findByAbbreviation(String abbreviation) {
+    return Currency.values
+        .firstWhere((e) => e.abbreviation == abbreviation, orElse: () => Currency.nul);
+  }
 }

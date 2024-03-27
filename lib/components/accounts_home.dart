@@ -1,5 +1,8 @@
+import 'package:budget/provider/account_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../model/account.dart';
 import '../screen/create_account_screen.dart';
 import '../widget/circle_icon.dart';
 
@@ -16,20 +19,21 @@ class _AccountsHomeState extends State<AccountsHome> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 2,
-        color: Colors.blue[50],
-        margin: const EdgeInsets.all(3),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                buildAccountHeading(),
-                if (_createNewAccountButton) buildCreateNewAccountButton(),
-              ],
-            ),
-            buildAccountTable(),
-          ],
-        ));
+      elevation: 2,
+      color: Colors.blue[50],
+      margin: const EdgeInsets.all(3),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              buildAccountHeading(),
+              if (_createNewAccountButton) buildCreateNewAccountButton(),
+            ],
+          ),
+          buildAccountTable(),
+        ],
+      ),
+    );
   }
 
   Widget buildAccountHeading() => ListTile(
@@ -65,24 +69,37 @@ class _AccountsHomeState extends State<AccountsHome> {
         ),
       );
 
-  Widget buildAccountTable() => Padding(
+  Widget buildAccountTable() {
+    return Consumer(builder: (ctx, ref, child) {
+      final accountsLoader = ref.watch(accountListProvider);
+      return accountsLoader.when(
+          data: (accounts) => buildAccountTable2(accounts),
+          error: (err, _) => Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text('Error Loading accounts: $err'),
+              ),
+          loading: () => const Center(child: CircularProgressIndicator()));
+    });
+  }
+
+  Widget buildAccountTable2(List<Account> accounts) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
         child: DataTable(
-          // border: TableBorder.all(),
-          columns: const [
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('Change'), numeric: true),
-            DataColumn(label: Text('Balance'), numeric: true),
-          ],
-          rows: const [
-            DataRow(
-              cells: [
-                DataCell(Text('Cash (£)')),
-                DataCell(Text('+22.91')),
-                DataCell(Text('+45.12')),
-              ],
-            )
-          ],
-        ),
+            // border: TableBorder.all(),
+            columns: const [
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Change'), numeric: true),
+              DataColumn(label: Text('Balance'), numeric: true),
+            ],
+            rows: accounts
+                .map((e) => DataRow(
+                      cells: [
+                        DataCell(
+                            Text('${e.name} ${e.currency.flag} ${e.currency.symbol}')),
+                        const DataCell(Text('+22.91')),
+                        const DataCell(Text('+45.12')),
+                      ],
+                    ))
+                .toList()),
       );
 }

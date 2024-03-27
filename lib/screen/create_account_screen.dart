@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../components/cancel_action_buttons.dart';
 import '../helper/date_time_helper.dart';
+import '../model/account.dart';
 import '../model/currency.dart';
 import '../model/new_account.dart';
 import '../provider/default_currency_provider.dart';
@@ -73,7 +74,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   }
 
   Future<void> _showDatePicker() async {
-    print('initialBalanceDate: ${_account.initialBalanceDate}');
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _account.initialBalanceDate,
@@ -83,7 +83,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     if (pickedDate != null) {
       _initialBalanceDateController.text = DateTimeHelper.formattedShortDate(pickedDate);
       _account = _account.copyWith(initialBalanceDate: pickedDate);
-      print('pickedDate: $pickedDate, _account: $_account');
     }
   }
 
@@ -111,6 +110,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   ),
                   textInputAction: TextInputAction.next,
                   validator: _validateName,
+                  maxLength: Account.nameMaxLength,
                   onSaved: _saveName,
                 ),
                 const SizedBox(height: 20),
