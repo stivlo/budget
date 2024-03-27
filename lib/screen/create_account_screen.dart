@@ -1,12 +1,13 @@
-import 'package:budget/provider/default_currency_provider.dart';
-import 'package:budget/widget/currency_selector.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../components/cancel_action_buttons.dart';
+import '../helper/date_time_helper.dart';
 import '../model/currency.dart';
 import '../model/new_account.dart';
+import '../provider/default_currency_provider.dart';
+import '../widget/currency_selector.dart';
 
 class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
@@ -18,13 +19,14 @@ class CreateAccountScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
+  _CreateAccountScreenState() : _account = NewAccount.empty() {
+    _initialBalanceDateController = TextEditingController(
+        text: DateTimeHelper.formattedShortDate(_account.initialBalanceDate));
+  }
+
+  NewAccount _account;
   final _form = GlobalKey<FormState>();
-  var _account = NewAccount(
-    name: '',
-    currency: Currency.nul,
-    initialBalance: Decimal.parse('0'),
-    initialBalanceDate: DateTime.now(),
-  );
+  late TextEditingController _initialBalanceDateController;
 
   void _submitForm() {
     if (_form.currentState != null && _form.currentState!.validate()) {
@@ -70,6 +72,21 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     }
   }
 
+  Future<void> _showDatePicker() async {
+    print('initialBalanceDate: ${_account.initialBalanceDate}');
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _account.initialBalanceDate,
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2025),
+    );
+    if (pickedDate != null) {
+      _initialBalanceDateController.text = DateTimeHelper.formattedShortDate(pickedDate);
+      _account = _account.copyWith(initialBalanceDate: pickedDate);
+      print('pickedDate: $pickedDate, _account: $_account');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,27 +103,46 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               children: [
                 const Text('Create accounts for any saving or current account, '
                     'credit card, cash, and mortgage accounts (negative balance).'),
+                const SizedBox(height: 20),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Account Name'),
+                  decoration: const InputDecoration(
+                    labelText: 'Account Name',
+                    filled: true,
+                  ),
                   textInputAction: TextInputAction.next,
                   validator: _validateName,
                   onSaved: _saveName,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 CurrencySelector(
                   context: context,
                   selectedCurrency: ref.read(defaultCurrencyProvider),
                   saveCurrency: _saveCurrency,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Initial Balance'),
+                  decoration: const InputDecoration(
+                    labelText: 'Initial Balance',
+                    filled: true,
+                  ),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
                   validator: _validateInitialBalance,
                   onSaved: _saveInitialBalance,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Initial Balance Date',
+                    filled: true,
+                    suffixIcon: Icon(Icons.today),
+                  ),
+                  textInputAction: TextInputAction.next,
+                  readOnly: true,
+                  onTap: _showDatePicker,
+                  controller: _initialBalanceDateController,
+                ),
+                const SizedBox(height: 20),
                 CancelActionButtons(action: _submitForm, actionLabel: 'Create'),
               ],
             ),

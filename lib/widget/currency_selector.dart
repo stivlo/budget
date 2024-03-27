@@ -19,6 +19,7 @@ class CurrencySelector extends StatelessWidget {
     return DropdownButtonFormField(
       decoration: const InputDecoration(
         labelText: 'Currency',
+        filled: true,
         contentPadding: EdgeInsets.symmetric(vertical: 18),
       ),
       icon: const Icon(Icons.arrow_downward),

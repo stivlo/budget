@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeBuilder {
   static ThemeData themeData(BuildContext context) => ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange.shade900),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade300),
         useMaterial3: true,
         elevatedButtonTheme: elevatedButtonThemeData(context),
         textButtonTheme: textButtonThemeData(context),
@@ -10,7 +10,7 @@ class ThemeBuilder {
               bodyMedium: const TextStyle(fontSize: 13),
             ),
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.orange.shade800,
+          backgroundColor: Colors.blue.shade500,
           titleTextStyle: const TextStyle(fontSize: 22),
         ),
       );

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeHelper {
-  static String formattedLongDateNow() => DateFormat.MMMMEEEEd().format(DateTime.now());
+  static String formattedLongDateNow() => formattedLongDate(DateTime.now());
+
+  static String formattedLongDate(DateTime date) => DateFormat.MMMMEEEEd().format(date);
 
   static String formattedShortDate(DateTime date) {
     final formatter = DateFormat('E, d MMM yy');
