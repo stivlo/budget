@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ThemeBuilder {
+class Themes {
+  static const TextStyle bodySmall = const TextStyle(fontSize: 11);
+  static const TextStyle bodySmallDisabled = TextStyle(fontSize: 11, color: Colors.grey);
+
   static ThemeData themeData(BuildContext context) => ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade300),
         useMaterial3: true,
         elevatedButtonTheme: elevatedButtonThemeData(context),
         textButtonTheme: textButtonThemeData(context),
         textTheme: ThemeData.light().textTheme.copyWith(
+              bodySmall: bodySmall,
               bodyMedium: const TextStyle(fontSize: 13),
             ),
         appBarTheme: AppBarTheme(
@@ -35,6 +39,9 @@ class ThemeBuilder {
           elevation: MaterialStateProperty.resolveWith<double>(
               (states) => states.contains(MaterialState.pressed) ? 0.0 : 5.0),
           textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
+            if (states.contains(MaterialState.disabled)) {
+              return const TextStyle(color: Colors.grey);
+            }
             return const TextStyle(color: Colors.black);
           }),
         ),

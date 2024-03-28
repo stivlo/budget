@@ -2,7 +2,7 @@ import 'package:budget/provider/default_currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'helper/theme_builder.dart';
+import 'helper/themes.dart';
 import 'model/currency.dart';
 import 'screen/create_account_screen.dart';
 import 'screen/currency_screen.dart';
@@ -19,7 +19,7 @@ class BudgetApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Budget Pilot',
-        theme: ThemeBuilder.themeData(context),
+        theme: Themes.themeData(context),
         home: buildHomeScreen(ref),
         routes: {
           CurrencyScreen.routeName: (_) => buildCurrencyScreen(ref),
