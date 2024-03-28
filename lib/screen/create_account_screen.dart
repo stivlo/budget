@@ -24,7 +24,8 @@ class CreateAccountScreen extends ConsumerStatefulWidget {
 class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   _CreateAccountScreenState() : _account = NewAccount.empty() {
     _initialBalanceDateController = TextEditingController(
-        text: DateTimeHelper.formattedShortDate(_account.initialBalanceDate));
+      text: DateTimeHelper.formattedShortDate(_account.initialBalanceDate),
+    );
   }
 
   NewAccount _account;
@@ -34,16 +35,9 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   void _submitForm() {
     if (_form.currentState != null && _form.currentState!.validate()) {
       _form.currentState!.save();
+      ref.read(accountProvider.notifier).createAccount(_account);
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     }
-    ref.read(accountProvider.notifier).createAccount(_account);
-    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-  }
-
-  String? _validateName(String? name) {
-    if (name == null || name.isEmpty) {
-      return 'Provide an account name';
-    }
-    return null;
   }
 
   String? _validateInitialBalance(String? balance) {
@@ -113,7 +107,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     filled: true,
                   ),
                   textInputAction: TextInputAction.next,
-                  validator: _validateName,
+                  validator: Account.validateName,
                   maxLength: Account.nameMaxLength,
                   onSaved: _saveName,
                 ),

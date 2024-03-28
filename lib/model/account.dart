@@ -13,6 +13,22 @@ class Account {
   final String name;
   final Currency currency;
 
+  static String? validateName(String? name) {
+    if (name == null || name.isEmpty) {
+      return 'Provide an account name';
+    }
+    return null;
+  }
+
+  Account copyWith({
+    String? name,
+  }) =>
+      Account(
+        id: id,
+        name: name ?? this.name,
+        currency: currency,
+      );
+
   @override
   String toString() {
     return 'Account{id: $id, name: $name, currency: ${currency.abbreviation}}';

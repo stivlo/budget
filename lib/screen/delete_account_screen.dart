@@ -24,23 +24,17 @@ class DeleteAccountScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Account Name', style: Themes.titleMedium),
-            const SizedBox(height: 10), // A
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(10.0),
               width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                  width: 1.0,
-                ),
+                border: Border.all(color: Colors.black, width: 1.0),
                 borderRadius: BorderRadius.circular(6.0),
               ),
-              child: Text(
-                account.name,
-                style: Themes.titleMedium,
-              ),
+              child: Text(account.name, style: Themes.titleMedium),
             ),
-            const SizedBox(height: 20), // A
+            const SizedBox(height: 20),
             CancelActionButtons(
               actionLabel: 'Delete',
               action: () => _delete(context, ref, account.id),

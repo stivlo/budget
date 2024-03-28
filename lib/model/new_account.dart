@@ -28,14 +28,13 @@ class NewAccount {
     Currency? currency,
     Decimal? initialBalance,
     DateTime? initialBalanceDate,
-  }) {
-    return NewAccount(
-      name: name ?? this.name,
-      currency: currency ?? this.currency,
-      initialBalance: initialBalance ?? this.initialBalance,
-      initialBalanceDate: initialBalanceDate ?? this.initialBalanceDate,
-    );
-  }
+  }) =>
+      NewAccount(
+        name: name ?? this.name,
+        currency: currency ?? this.currency,
+        initialBalance: initialBalance ?? this.initialBalance,
+        initialBalanceDate: initialBalanceDate ?? this.initialBalanceDate,
+      );
 
   Map<String, dynamic> toMap() => {
         'name': name,
