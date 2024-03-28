@@ -20,6 +20,11 @@ class AccountNotifier extends StateNotifier<List<Account>> {
     await db.insert(accountTable, account.toMap());
     await fetchAccounts();
   }
+
+  Future<void> deleteAccount(int id) async {
+    await db.delete(accountTable, where: 'id=?', whereArgs: [id]);
+    await fetchAccounts();
+  }
 }
 
 final accountProvider =

@@ -1,4 +1,5 @@
 import 'package:budget/provider/account_provider.dart';
+import 'package:budget/screen/delete_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,17 +25,35 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
       elevation: 2,
       color: Colors.blue[50],
       margin: const EdgeInsets.all(3),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              buildAccountHeading(),
-              if (_createNewAccountButton) buildCreateNewAccountButton(),
-            ],
-          ),
-          buildInitialAccountTable(),
-        ],
+      child: buildContentLoader(),
+    );
+  }
+
+  Widget buildContentLoader() {
+    final accountsLoader = ref.watch(accountListProvider);
+    return accountsLoader.when(
+      data: (accounts) => buildContent(),
+      error: (err, _) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text('Error Loading accounts: $err'),
       ),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget buildContent() {
+    final accounts = ref.watch(accountProvider);
+    return Column(
+      children: [
+        Stack(
+          children: [
+            buildAccountHeading(),
+            if (_createNewAccountButton) buildCreateNewAccountButton(),
+          ],
+        ),
+        if (accounts.isNotEmpty) buildAccountTable(accounts),
+        if (accounts.isEmpty) const SizedBox(height: 20),
+      ],
     );
   }
 
@@ -46,7 +65,7 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
 
   Widget buildCreateNewAccountButton() => Positioned(
         top: 5,
-        left: 180,
+        right: 10,
         child: TextButton(
           onPressed: () => Navigator.of(context).pushNamed(CreateAccountScreen.routeName),
           style: ButtonStyle(
@@ -61,23 +80,6 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
           ),
         ),
       );
-
-  Widget buildInitialAccountTable() {
-    final accountsLoader = ref.watch(accountListProvider);
-    return accountsLoader.when(
-      data: (accounts) => buildAccountTableWatcher(),
-      error: (err, _) => Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text('Error Loading accounts: $err'),
-      ),
-      loading: () => const Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  Widget buildAccountTableWatcher() {
-    final accounts = ref.watch(accountProvider);
-    return buildAccountTable(accounts);
-  }
 
   Widget menuOptionTile(IconData iconData, String title, {bool enabled = true}) => Row(
         children: [
@@ -127,8 +129,15 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
           ];
         },
         onSelected: (MenuAction choice) {
-          // Handle the selected option (One or Two) here
-          print('Selected: $choice');
+          switch (choice) {
+            case MenuAction.deleteAccount:
+              Navigator.of(context).pushNamed(
+                DeleteAccountScreen.routeName,
+                arguments: account,
+              );
+              break;
+            default:
+          }
         },
         child: child,
       );
@@ -149,17 +158,15 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
                       cells: [
                         DataCell(
                           ConstrainedBox(
-                            constraints: const BoxConstraints(
-                                minWidth: 100, maxWidth: 200), // Set your desired width
+                            constraints:
+                                const BoxConstraints(minWidth: 100, maxWidth: 200),
                             child: wrapWithPopupMenu(
                                 Text('${account.currency.flag} ${account.name}'),
                                 account),
                           ),
                         ),
-                        DataCell(wrapWithPopupMenu(
-                            Text('${account.currency.symbol} +22.91'), account)),
-                        DataCell(wrapWithPopupMenu(
-                            Text('${account.currency.symbol} +45.12'), account)),
+                        DataCell(Text('${account.currency.symbol} +22.91')),
+                        DataCell(Text('${account.currency.symbol} +45.12')),
                       ],
                     ))
                 .toList()),

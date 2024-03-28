@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Themes {
-  static const TextStyle titleLarge = TextStyle(fontSize: 24);
+  static const TextStyle titleLarge = TextStyle(fontSize: 22);
   static const TextStyle titleMedium = TextStyle(fontSize: 16);
   static const TextStyle bodyMedium = TextStyle(fontSize: 13);
   static const TextStyle bodySmall = TextStyle(fontSize: 11);

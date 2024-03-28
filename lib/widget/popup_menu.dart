@@ -1,4 +1,4 @@
-import 'package:budget/screen/currency_screen.dart';
+import 'package:budget/screen/default_currency_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/menu_action.dart';
@@ -29,7 +29,7 @@ class PopupMenu extends StatelessWidget {
           case MenuAction.newExpenseCategory:
             break;
           case MenuAction.setDefaultCurrency:
-            Navigator.of(context).pushNamed(CurrencyScreen.routeName);
+            Navigator.of(context).pushNamed(DefaultCurrencyScreen.routeName);
             break;
           default:
         }

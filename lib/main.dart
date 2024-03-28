@@ -1,11 +1,12 @@
 import 'package:budget/provider/default_currency_provider.dart';
+import 'package:budget/screen/delete_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'helper/themes.dart';
 import 'model/currency.dart';
 import 'screen/create_account_screen.dart';
-import 'screen/currency_screen.dart';
+import 'screen/default_currency_screen.dart';
 import 'screen/home_screen.dart';
 
 void main() async {
@@ -22,8 +23,9 @@ class BudgetApp extends ConsumerWidget {
         theme: Themes.themeData(context),
         home: buildHomeScreen(ref),
         routes: {
-          CurrencyScreen.routeName: (_) => buildCurrencyScreen(ref),
+          DefaultCurrencyScreen.routeName: (_) => buildCurrencyScreen(ref),
           CreateAccountScreen.routeName: (_) => const CreateAccountScreen(),
+          DeleteAccountScreen.routeName: (_) => const DeleteAccountScreen(),
         },
       );
 
@@ -32,7 +34,7 @@ class BudgetApp extends ConsumerWidget {
         builder: (_, currencySnapshot) =>
             currencySnapshot.connectionState == ConnectionState.waiting
                 ? const Center(child: CircularProgressIndicator())
-                : const CurrencyScreen(),
+                : const DefaultCurrencyScreen(),
       );
 
   Widget buildHomeScreen(WidgetRef ref) => FutureBuilder(
@@ -42,7 +44,7 @@ class BudgetApp extends ConsumerWidget {
           return const Center(child: CircularProgressIndicator());
         }
         return currencySnapshot.data == Currency.nul
-            ? const CurrencyScreen()
+            ? const DefaultCurrencyScreen()
             : const HomeScreen();
       });
 }
