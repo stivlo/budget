@@ -1,5 +1,6 @@
 import 'package:budget/provider/account_provider.dart';
 import 'package:budget/screen/delete_account_screen.dart';
+import 'package:budget/screen/rename_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -130,6 +131,12 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
         },
         onSelected: (MenuAction choice) {
           switch (choice) {
+            case MenuAction.renameAccount:
+              Navigator.of(context).pushNamed(
+                RenameAccountScreen.routeName,
+                arguments: account,
+              );
+              break;
             case MenuAction.deleteAccount:
               Navigator.of(context).pushNamed(
                 DeleteAccountScreen.routeName,

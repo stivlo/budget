@@ -1,5 +1,6 @@
 import 'package:budget/provider/default_currency_provider.dart';
 import 'package:budget/screen/delete_account_screen.dart';
+import 'package:budget/screen/rename_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,6 +26,7 @@ class BudgetApp extends ConsumerWidget {
         routes: {
           DefaultCurrencyScreen.routeName: (_) => buildCurrencyScreen(ref),
           CreateAccountScreen.routeName: (_) => const CreateAccountScreen(),
+          RenameAccountScreen.routeName: (_) => const RenameAccountScreen(),
           DeleteAccountScreen.routeName: (_) => const DeleteAccountScreen(),
         },
       );

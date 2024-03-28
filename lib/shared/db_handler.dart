@@ -22,6 +22,10 @@ class DbHandler {
   Future<void> delete(String table, {String? where, List<Object?>? whereArgs}) async =>
       (await _db).delete(table, where: where, whereArgs: whereArgs);
 
+  Future<void> update(String table, Map<String, dynamic> values,
+          {String? where, List<Object?>? whereArgs}) async =>
+      (await _db).update(table, values, where: where, whereArgs: whereArgs);
+
   Future<List<Map<String, Object?>>> query(String table,
           {bool? distinct,
           List<String>? columns,

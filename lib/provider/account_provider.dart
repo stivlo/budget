@@ -25,6 +25,11 @@ class AccountNotifier extends StateNotifier<List<Account>> {
     await db.delete(accountTable, where: 'id=?', whereArgs: [id]);
     await fetchAccounts();
   }
+
+  Future<void> renameAccount(int id, String name) async {
+    await db.update(accountTable, {'name': name}, where: 'id=?', whereArgs: [id]);
+    await fetchAccounts();
+  }
 }
 
 final accountProvider =
