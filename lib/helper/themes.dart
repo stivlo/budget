@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Themes {
-  static const TextStyle bodySmall = const TextStyle(fontSize: 11);
+  static const TextStyle titleLarge = TextStyle(fontSize: 24);
+  static const TextStyle titleMedium = TextStyle(fontSize: 16);
+  static const TextStyle bodyMedium = TextStyle(fontSize: 13);
+  static const TextStyle bodySmall = TextStyle(fontSize: 11);
   static const TextStyle bodySmallDisabled = TextStyle(fontSize: 11, color: Colors.grey);
 
   static ThemeData themeData(BuildContext context) => ThemeData(
@@ -10,8 +13,10 @@ class Themes {
         elevatedButtonTheme: elevatedButtonThemeData(context),
         textButtonTheme: textButtonThemeData(context),
         textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: titleLarge,
+              titleMedium: titleMedium,
               bodySmall: bodySmall,
-              bodyMedium: const TextStyle(fontSize: 13),
+              bodyMedium: bodyMedium,
             ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.blue.shade500,

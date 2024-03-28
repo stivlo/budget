@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../helper/themes.dart';
 import '../model/currency.dart';
 import '../provider/default_currency_provider.dart';
 import '../widget/currency_selector.dart';
@@ -42,7 +43,7 @@ class _CurrencyScreenState extends ConsumerState<CurrencyScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            Text('Principles', style: Theme.of(context).textTheme.titleMedium),
+            const Text('Principles', style: Themes.titleMedium),
             const SizedBox(height: 10),
             const Text('- Allocate all of your income'),
             const SizedBox(height: 10),
@@ -52,8 +53,7 @@ class _CurrencyScreenState extends ConsumerState<CurrencyScreen> {
             const SizedBox(height: 10),
             const Text('- Make adjustments as needed'),
             const SizedBox(height: 30),
-            Text('Choose Default Currency',
-                style: Theme.of(context).textTheme.titleMedium),
+            const Text('Choose Default Currency', style: Themes.titleMedium),
             const SizedBox(height: 20),
             Form(
               key: _form,

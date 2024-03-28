@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../helper/themes.dart';
 import '../widget/circle_icon.dart';
 
 class IncomeHome extends StatelessWidget {
@@ -11,13 +12,13 @@ class IncomeHome extends StatelessWidget {
         elevation: 2,
         color: Colors.green[50],
         margin: const EdgeInsets.all(3),
-        child: Column(
+        child: const Column(
           children: [
             ListTile(
-              leading: const CircleIcon(Icons.input_rounded, Colors.green),
-              title: Text('Income', style: Theme.of(context).textTheme.titleLarge),
-              subtitle: Text('Tap to set', style: Theme.of(context).textTheme.bodyMedium),
-              trailing: Text('£ 0', style: Theme.of(context).textTheme.titleMedium),
+              leading: CircleIcon(Icons.input_rounded, Colors.green),
+              title: Text('Income', style: Themes.titleLarge),
+              subtitle: Text('Tap to set', style: Themes.bodyMedium),
+              trailing: Text('£ 0', style: Themes.titleMedium),
             ),
           ],
         ));

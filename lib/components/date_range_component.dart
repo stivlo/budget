@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../helper/date_time_helper.dart';
+import '../helper/themes.dart';
 import '../model/date_range.dart';
 
 class DateRangeComponent extends ConsumerWidget {
@@ -67,7 +68,7 @@ class DateRangeComponent extends ConsumerWidget {
 
   Widget buildTodayButton(WidgetRef ref, BuildContext context) => TextButton(
         onPressed: () => ref.read(dateRangeProvider.notifier).moveToEndingToday(),
-        child: Text('📅 Today', style: Theme.of(context).textTheme.bodySmall),
+        child: const Text('📅 Today', style: Themes.bodySmall),
       );
 
   DropdownMenu<int> buildDurationDaysDropdown(DateRange dateRange, WidgetRef ref) =>
