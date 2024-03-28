@@ -37,6 +37,11 @@ class NewAccount {
     );
   }
 
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'currency': currency.abbreviation,
+      };
+
   @override
   String toString() {
     return 'NewAccount{name: $name, '

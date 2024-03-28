@@ -6,14 +6,14 @@ import '../model/account.dart';
 import '../screen/create_account_screen.dart';
 import '../widget/circle_icon.dart';
 
-class AccountsHome extends StatefulWidget {
+class AccountsHome extends ConsumerStatefulWidget {
   const AccountsHome({super.key});
 
   @override
-  State<AccountsHome> createState() => _AccountsHomeState();
+  ConsumerState<AccountsHome> createState() => _AccountsHomeState();
 }
 
-class _AccountsHomeState extends State<AccountsHome> {
+class _AccountsHomeState extends ConsumerState<AccountsHome> {
   bool _createNewAccountButton = false;
 
   @override
@@ -30,18 +30,14 @@ class _AccountsHomeState extends State<AccountsHome> {
               if (_createNewAccountButton) buildCreateNewAccountButton(),
             ],
           ),
-          buildAccountTable(),
+          buildInitialAccountTable(),
         ],
       ),
     );
   }
 
   Widget buildAccountHeading() => ListTile(
-        onTap: () {
-          setState(() {
-            _createNewAccountButton = !_createNewAccountButton;
-          });
-        },
+        onTap: () => setState(() => _createNewAccountButton = !_createNewAccountButton),
         leading: const CircleIcon(Icons.account_balance, Colors.blue),
         title: Text(
           'Accounts',
@@ -53,9 +49,7 @@ class _AccountsHomeState extends State<AccountsHome> {
         top: 5,
         left: 180,
         child: TextButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed(CreateAccountScreen.routeName);
-          },
+          onPressed: () => Navigator.of(context).pushNamed(CreateAccountScreen.routeName),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.blue),
             fixedSize: MaterialStateProperty.all(
@@ -69,21 +63,25 @@ class _AccountsHomeState extends State<AccountsHome> {
         ),
       );
 
-  Widget buildAccountTable() {
-    return Consumer(builder: (ctx, ref, child) {
-      final accountsLoader = ref.watch(accountListProvider);
-      return accountsLoader.when(
-          data: (accounts) => buildAccountTable2(accounts),
-          error: (err, _) => Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text('Error Loading accounts: $err'),
-              ),
-          loading: () => const Center(child: CircularProgressIndicator()));
-    });
+  Widget buildInitialAccountTable() {
+    final accountsLoader = ref.watch(accountListProvider);
+    return accountsLoader.when(
+      data: (accounts) => buildAccountTableWatcher(),
+      error: (err, _) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text('Error Loading accounts: $err'),
+      ),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
   }
 
-  Widget buildAccountTable2(List<Account> accounts) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+  Widget buildAccountTableWatcher() {
+    final accounts = ref.watch(accountProvider);
+    return buildAccountTable(accounts);
+  }
+
+  Widget buildAccountTable(List<Account> accounts) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: DataTable(
             // border: TableBorder.all(),
             columns: const [
@@ -94,8 +92,9 @@ class _AccountsHomeState extends State<AccountsHome> {
             rows: accounts
                 .map((e) => DataRow(
                       cells: [
-                        DataCell(
-                            Text('${e.name} ${e.currency.flag} ${e.currency.symbol}')),
+                        DataCell(Text(
+                          '${e.currency.flag} ${e.name} ${e.currency.symbol}',
+                        )),
                         const DataCell(Text('+22.91')),
                         const DataCell(Text('+45.12')),
                       ],
