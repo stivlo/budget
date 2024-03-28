@@ -41,10 +41,7 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
   Widget buildAccountHeading() => ListTile(
         onTap: () => setState(() => _createNewAccountButton = !_createNewAccountButton),
         leading: const CircleIcon(Icons.account_balance, Colors.blue),
-        title: Text(
-          'Accounts',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        title: const Text('Accounts', style: Themes.titleLarge),
       );
 
   Widget buildCreateNewAccountButton() => Positioned(
@@ -88,9 +85,7 @@ class _AccountsHomeState extends ConsumerState<AccountsHome> {
           const SizedBox(width: 8),
           Text(
             title,
-            style: enabled
-                ? Themes.bodySmall
-                : Themes.bodySmallDisabled,
+            style: enabled ? Themes.bodySmall : Themes.bodySmallDisabled,
           ),
         ],
       );

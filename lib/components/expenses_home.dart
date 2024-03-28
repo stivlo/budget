@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../helper/themes.dart';
 import '../widget/circle_icon.dart';
 
 class ExpensesHome extends StatelessWidget {
@@ -13,9 +14,9 @@ class ExpensesHome extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            leading: const CircleIcon(Icons.output_rounded, Colors.orange),
-            title: Text('Expenses', style: Theme.of(context).textTheme.titleLarge),
+          const ListTile(
+            leading: CircleIcon(Icons.output_rounded, Colors.orange),
+            title: Text('Expenses', style: Themes.titleLarge),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 18),
