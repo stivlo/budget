@@ -19,6 +19,9 @@ class DbHandler {
   Future<int> insert(String table, Map<String, dynamic> values) async =>
       (await _db).insert(table, values);
 
+  Future<void> delete(String table, {String? where, List<Object?>? whereArgs}) async =>
+      (await _db).delete(table, where: where, whereArgs: whereArgs);
+
   Future<List<Map<String, Object?>>> query(String table,
           {bool? distinct,
           List<String>? columns,

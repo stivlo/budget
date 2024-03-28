@@ -7,16 +7,16 @@ import '../provider/default_currency_provider.dart';
 import '../widget/currency_selector.dart';
 import 'home_screen.dart';
 
-class CurrencyScreen extends ConsumerStatefulWidget {
-  const CurrencyScreen({super.key});
+class DefaultCurrencyScreen extends ConsumerStatefulWidget {
+  const DefaultCurrencyScreen({super.key});
 
-  static const routeName = '/currency';
+  static const routeName = '/default-currency';
 
   @override
-  ConsumerState<CurrencyScreen> createState() => _CurrencyScreenState();
+  ConsumerState<DefaultCurrencyScreen> createState() => _CurrencyScreenState();
 }
 
-class _CurrencyScreenState extends ConsumerState<CurrencyScreen> {
+class _CurrencyScreenState extends ConsumerState<DefaultCurrencyScreen> {
   final _form = GlobalKey<FormState>();
   late Currency currency;
   late NavigatorState navigatorState;

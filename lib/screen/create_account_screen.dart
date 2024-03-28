@@ -1,8 +1,9 @@
+import 'package:budget/screen/home_screen.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../components/cancel_action_buttons.dart';
+import '../component/cancel_action_buttons.dart';
 import '../helper/date_time_helper.dart';
 import '../model/account.dart';
 import '../model/currency.dart';
@@ -14,7 +15,7 @@ import '../widget/currency_selector.dart';
 class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
 
-  static const routeName = '/create-account-screen';
+  static const routeName = '/create-account';
 
   @override
   ConsumerState<CreateAccountScreen> createState() => _CreateAccountScreenState();
@@ -35,7 +36,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
       _form.currentState!.save();
     }
     ref.read(accountProvider.notifier).createAccount(_account);
-    Navigator.of(context).pushReplacementNamed('/');
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
   }
 
   String? _validateName(String? name) {
