@@ -7,6 +7,7 @@ import '../helper/date_time_helper.dart';
 import '../model/account.dart';
 import '../model/currency.dart';
 import '../model/new_account.dart';
+import '../provider/account_provider.dart';
 import '../provider/default_currency_provider.dart';
 import '../widget/currency_selector.dart';
 
@@ -33,6 +34,8 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     if (_form.currentState != null && _form.currentState!.validate()) {
       _form.currentState!.save();
     }
+    ref.read(accountProvider.notifier).createAccount(_account);
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   String? _validateName(String? name) {
@@ -77,8 +80,8 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _account.initialBalanceDate,
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(2023),
+      lastDate: DateTime(DateTime.now().year + 1),
     );
     if (pickedDate != null) {
       _initialBalanceDateController.text = DateTimeHelper.formattedShortDate(pickedDate);
