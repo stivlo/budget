@@ -31,6 +31,7 @@ class PopupMenu extends StatelessWidget {
           case MenuAction.setDefaultCurrency:
             Navigator.of(context).pushNamed(CurrencyScreen.routeName);
             break;
+          default:
         }
       },
       icon: const Icon(
